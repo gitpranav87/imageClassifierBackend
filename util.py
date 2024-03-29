@@ -38,13 +38,13 @@ def load_saved_artifacts():
     global __class_name_to_number
     global __class_number_to_name
     current_dir = os.getcwd()
-    with open(os.path.join(current_dir, "Images_Dataset\\Server\\Class_Dictionary.json"), "r") as f:
+    with open(os.path.join(current_dir, "Images_Dataset/Server/Class_Dictionary.json"), "r") as f:
         __class_name_to_number = json.load(f)
         __class_number_to_name = {v:k for k,v in __class_name_to_number.items()}
 
     global __model
     if __model is None:
-        with open(os.path.join(current_dir, "Images_Dataset\\Server\\Trained_Model"), 'rb') as f:
+        with open(os.path.join(current_dir, "Images_Dataset/Server/Trained_Model"), 'rb') as f:
             __model = joblib.load(f)
     print("loading saved artifacts...done")
 
@@ -64,8 +64,8 @@ def get_cv2_image_from_base64_string(b64str):
 
 def get_cropped_image_if_2_eyes(image_path, image_base64_data):
     current_dir = os.getcwd()
-    face_cascade = cv2.CascadeClassifier(os.path.join(current_dir,"Haar_Cascades\\haarcascade_frontalface_default.xml"))
-    eye_cascade = cv2.CascadeClassifier(os.path.join(current_dir,"Haar_Cascades\\haarcascade_eye.xml"))
+    face_cascade = cv2.CascadeClassifier(os.path.join(current_dir,"Haar_Cascades/haarcascade_frontalface_default.xml"))
+    eye_cascade = cv2.CascadeClassifier(os.path.join(current_dir,"Haar_Cascades/haarcascade_eye.xml"))
 
     if image_path:
         img=cv2.imread(image_path)
@@ -87,7 +87,7 @@ def get_cropped_image_if_2_eyes(image_path, image_base64_data):
 
 def get_64_test_image_for_virat():
     current_dir = os.getcwd()
-    with open (os.path.join(current_dir,"Images_Dataset\\Base64.txt")) as f:
+    with open (os.path.join(current_dir,"Images_Dataset/Base64.txt")) as f:
         return f.read()
 
 if __name__ == '__main__':
