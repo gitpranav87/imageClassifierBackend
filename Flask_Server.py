@@ -16,8 +16,7 @@ def Classify_Image():
 
 
 if __name__ == "__main__":
-    #app.run(port=8080, debug=True)
-
     print("Starting Python Flask Server For Sports Celebrity Image Classification")
     util.load_saved_artifacts()
-    app.run(port=6969, debug=False)
+    app.run(host='0.0.0.0', port=6969, debug=True)
+
