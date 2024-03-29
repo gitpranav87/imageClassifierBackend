@@ -3,6 +3,7 @@ import json
 import numpy as np
 import base64
 import cv2
+import os
 from wavelet import w2d
 
 __class_name_to_number={}
@@ -36,14 +37,14 @@ def load_saved_artifacts():
     print("loading saved artifacts...start")
     global __class_name_to_number
     global __class_number_to_name
-
-    with open("C:\\Users\\prana\\Downloads\\Images_Dataset\\Server\\Class_Dictionary.json", "r") as f:
+    current_dir = os.getcwd()
+    with open(os.path.join(current_dir, "Images_Dataset\\Server\\Class_Dictionary.json"), "r") as f:
         __class_name_to_number = json.load(f)
         __class_number_to_name = {v:k for k,v in __class_name_to_number.items()}
 
     global __model
     if __model is None:
-        with open("C:\\Users\\prana\\Downloads\\Images_Dataset\\Server\\Trained_Model", 'rb') as f:
+        with open(os.path.join(current_dir, "Images_Dataset\\Server\\Trained_Model"), 'rb') as f:
             __model = joblib.load(f)
     print("loading saved artifacts...done")
 
@@ -62,8 +63,9 @@ def get_cv2_image_from_base64_string(b64str):
 
 
 def get_cropped_image_if_2_eyes(image_path, image_base64_data):
-    face_cascade = cv2.CascadeClassifier("C:\\Users\\prana\\Downloads\\Haar_Cascades\\Haar_Cascades\\haarcascade_frontalface_default.xml")
-    eye_cascade = cv2.CascadeClassifier("C:\\Users\\prana\\Downloads\\Haar_Cascades\\Haar_Cascades\\haarcascade_eye.xml")
+    current_dir = os.getcwd()
+    face_cascade = cv2.CascadeClassifier(os.path.join(current_dir,"Haar_Cascades\\haarcascade_frontalface_default.xml"))
+    eye_cascade = cv2.CascadeClassifier(os.path.join(current_dir,"Haar_Cascades\\haarcascade_eye.xml"))
 
     if image_path:
         img=cv2.imread(image_path)
@@ -84,14 +86,9 @@ def get_cropped_image_if_2_eyes(image_path, image_base64_data):
 
 
 def get_64_test_image_for_virat():
-    with open ("C:\\Users\\prana\\Downloads\\Images_Dataset\\Base64.txt") as f:
+    current_dir = os.getcwd()
+    with open (os.path.join(current_dir,"Images_Dataset\\Base64.txt")) as f:
         return f.read()
 
 if __name__ == '__main__':
     load_saved_artifacts()
-    #print(classify_image(get_64_test_image_for_virat(), None))
-    #print(class_number_to_name(4))
-
-    print(classify_image(None, "C:\\Users\\prana\\Downloads\\Images_Dataset\\Test_Images\\Virat_Kohli48.png"))
-    print(classify_image(None, "C:\\Users\\prana\\Downloads\\Images_Dataset\\Test_Images\\Roger_Federer30.png"))
-    print(classify_image(None, "C:\\Users\\prana\\Downloads\\Images_Dataset\\Test_Images\\Maria_Sharapova31.png"))
